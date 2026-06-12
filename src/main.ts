@@ -5,5 +5,15 @@ import App from "./App.vue";
 import router from "./router";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { useAuthStore } from "./stores/auth";
 
-createApp(App).use(createPinia()).use(router).use(Toast).mount("#app");
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(pinia);
+app.use(router);
+app.use(Toast);
+
+await useAuthStore().initFromStorage();
+
+app.mount("#app");

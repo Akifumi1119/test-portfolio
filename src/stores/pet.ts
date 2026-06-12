@@ -9,14 +9,7 @@ export interface Pet {
 }
 
 export const usePetStore = defineStore("pet", () => {
-  const pets = ref<Pet[]>([
-    {
-      id: 1,
-      name: "ポチ",
-      type: "柴犬",
-      birthday: "2020-04-01",
-    },
-  ]);
+  const pets = ref<Pet[]>([]);
 
   const addPet = (pet: Omit<Pet, "id">) => {
     pets.value.push({

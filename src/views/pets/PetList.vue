@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import AppLayout from "../../components/AppLayout.vue";
 import PetCard from "../../components/PetCard.vue";
 import { petApi } from "../../api/petApi";
+import { formatDate } from "../../utils/date";
+
+const router = useRouter();
 
 interface Pet {
   id: number;
@@ -21,7 +25,7 @@ onMounted(async () => {
   <AppLayout>
     <h1>ペット一覧</h1>
 
-    <button>＋ペットを登録</button>
+    <button @click="router.push('/pets/create')">＋ペットを登録</button>
 
     <PetCard
       v-for="pet in pets"
@@ -29,7 +33,7 @@ onMounted(async () => {
       :id="pet.id"
       :name="pet.name"
       :type="pet.type"
-      :birthday="pet.birthday"
+      :birthday="formatDate(pet.birthday)"
     />
   </AppLayout>
 </template>

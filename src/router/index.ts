@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
 import LoginView from "../views/auth/Login.vue";
 import RegisterView from "../views/auth/Register.vue";
@@ -10,6 +11,8 @@ import PetEditView from "../views/pets/PetEdit.vue";
 
 import RecordListView from "../views/records/RecordList.vue";
 import RecordCreateView from "../views/records/RecordCreate.vue";
+
+const guestRoutes = ["/login", "/register"];
 
 const router = createRouter({
   history: createWebHistory(),
@@ -51,6 +54,18 @@ const router = createRouter({
       component: RecordCreateView,
     },
   ],
+});
+
+router.beforeEach((to) => {
+  const authStore = useAuthStore();
+
+  if (guestRoutes.includes(to.path)) {
+    if (authStore.isAuthenticated) return "/pets";
+    return true;
+  }
+
+  if (!authStore.isAuthenticated) return "/login";
+  return true;
 });
 
 export default router;
