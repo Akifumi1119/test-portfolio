@@ -32,7 +32,10 @@ const moveDetail = () => {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
-  margin-top: 16px;
-  max-width: 300px;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: #f9f9f9;
 }
 </style>

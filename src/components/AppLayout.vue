@@ -13,75 +13,95 @@ const logout = async () => {
 
 <template>
   <div class="layout">
-    <aside class="sidebar">
-      <h2>PetCare Diary</h2>
+    <header class="header">
+      <div class="header-left">
+        <span class="logo" @click="router.push('/pets')">PetCare Diary</span>
+        <nav>
+          <router-link to="/pets">ペット一覧</router-link>
+          <router-link to="/pets/create">ペット登録</router-link>
+        </nav>
+      </div>
 
-      <nav>
-        <router-link to="/pets">ペット一覧</router-link>
-        <router-link to="/pets/create">ペット登録</router-link>
-      </nav>
-
-      <div class="sidebar-footer">
-        <p class="user-name">{{ authStore.user?.name }}</p>
+      <div class="header-right">
+        <span class="user-name">{{ authStore.user?.name }}</span>
         <button class="logout-btn" @click="logout">ログアウト</button>
       </div>
-    </aside>
+    </header>
 
     <main class="content">
       <slot />
     </main>
+
+    <footer class="footer">
+      <p>© 2026 Akifumi Doi</p>
+    </footer>
   </div>
 </template>
 
 <style scoped>
 .layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
-.sidebar {
-  width: 240px;
-  background: #f5f5f5;
-  padding: 24px;
+.header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.sidebar h2 {
-  color: #000;
-  margin-bottom: 24px;
-}
-
-.sidebar nav {
+.header-left {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
+  align-items: center;
+  gap: 32px;
 }
 
-.sidebar a {
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #111;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+}
+
+nav a {
   text-decoration: none;
-  color: #333;
+  color: #555;
+  font-size: 0.95rem;
 }
 
-.sidebar-footer {
-  border-top: 1px solid #ddd;
-  padding-top: 16px;
+nav a.router-link-active {
+  color: #111;
+  font-weight: 600;
+}
+
+.header-right {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
 }
 
 .user-name {
   font-size: 0.9rem;
   color: #555;
-  margin: 0;
 }
 
 .logout-btn {
-  padding: 6px 12px;
+  padding: 6px 14px;
   background: transparent;
-  border: 1px solid #999;
+  border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -89,11 +109,20 @@ const logout = async () => {
 }
 
 .logout-btn:hover {
-  background: #e5e5e5;
+  background: #f5f5f5;
 }
 
 .content {
   flex: 1;
-  padding: 24px;
+  padding: 32px;
+}
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.8rem;
+  color: #999;
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
 }
 </style>

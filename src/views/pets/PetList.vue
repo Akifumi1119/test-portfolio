@@ -23,17 +23,45 @@ onMounted(async () => {
 
 <template>
   <AppLayout>
-    <h1>ペット一覧</h1>
+    <div class="header">
+      <h1>ペット一覧</h1>
+      <button class="register-button" @click="router.push('/pets/create')">
+        ＋ペットを登録
+      </button>
+    </div>
 
-    <button @click="router.push('/pets/create')">＋ペットを登録</button>
-
-    <PetCard
-      v-for="pet in pets"
-      :key="pet.id"
-      :id="pet.id"
-      :name="pet.name"
-      :type="pet.type"
-      :birthday="formatDate(pet.birthday)"
-    />
+    <div class="grid">
+      <PetCard
+        v-for="pet in pets"
+        :key="pet.id"
+        :id="pet.id"
+        :name="pet.name"
+        :type="pet.type"
+        :birthday="formatDate(pet.birthday)"
+      />
+    </div>
   </AppLayout>
 </template>
+
+<style scoped>
+.register-button {
+  margin-top: 1rem;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+</style>
