@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 
 import LoginView from "../views/auth/Login.vue";
@@ -15,7 +15,7 @@ import RecordCreateView from "../views/records/RecordCreate.vue";
 const guestRoutes = ["/login", "/register"];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: "/",
