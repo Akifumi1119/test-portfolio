@@ -16,7 +16,7 @@ const logout = async () => {
     <header class="header">
       <div class="header-left">
         <span class="logo" @click="router.push('/pets')">PetCare Diary</span>
-        <nav>
+        <nav v-if="authStore.isAuthenticated">
           <router-link to="/pets">ペット一覧</router-link>
           <router-link to="/pets/create">ペット登録</router-link>
         </nav>
@@ -24,7 +24,13 @@ const logout = async () => {
 
       <div class="header-right">
         <span class="user-name">{{ authStore.user?.name }}</span>
-        <button class="logout-btn" @click="logout">ログアウト</button>
+        <button
+          v-if="authStore.isAuthenticated"
+          class="logout-btn"
+          @click="logout"
+        >
+          ログアウト
+        </button>
       </div>
     </header>
 

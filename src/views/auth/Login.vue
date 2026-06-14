@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
+import AppLayout from "../../components/AppLayout.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -24,40 +25,42 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="page">
-    <div class="card">
-      <h1 class="login">ログイン</h1>
+  <AppLayout>
+    <div class="page">
+      <div class="card">
+        <h1 class="login">ログイン</h1>
 
-      <form @submit.prevent="submit">
-        <div class="form-group">
-          <label>メールアドレス</label>
-          <input v-model="email" type="email" autocomplete="email" />
-          <span v-if="fieldErrors.email" class="error">{{
-            fieldErrors.email[0]
-          }}</span>
-        </div>
+        <form @submit.prevent="submit">
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <input v-model="email" type="email" autocomplete="email" />
+            <span v-if="fieldErrors.email" class="error">{{
+              fieldErrors.email[0]
+            }}</span>
+          </div>
 
-        <div class="form-group">
-          <label>パスワード</label>
-          <input
-            v-model="password"
-            type="password"
-            autocomplete="current-password"
-          />
-          <span v-if="fieldErrors.password" class="error">{{
-            fieldErrors.password[0]
-          }}</span>
-        </div>
+          <div class="form-group">
+            <label>パスワード</label>
+            <input
+              v-model="password"
+              type="password"
+              autocomplete="current-password"
+            />
+            <span v-if="fieldErrors.password" class="error">{{
+              fieldErrors.password[0]
+            }}</span>
+          </div>
 
-        <button type="submit">ログイン</button>
-      </form>
+          <button type="submit">ログイン</button>
+        </form>
 
-      <p class="link">
-        アカウントをお持ちでない方は
-        <router-link to="/register">新規登録</router-link>
-      </p>
+        <p class="link">
+          アカウントをお持ちでない方は
+          <router-link to="/register">新規登録</router-link>
+        </p>
+      </div>
     </div>
-  </div>
+  </AppLayout>
 </template>
 
 <style scoped>
