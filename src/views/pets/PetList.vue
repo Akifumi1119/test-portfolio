@@ -16,8 +16,14 @@ interface Pet {
 }
 
 const pets = ref<Pet[]>([]);
+const isLoading = ref(true);
+
 onMounted(async () => {
-  pets.value = await petApi.getAll();
+  try {
+    pets.value = await petApi.getAll();
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -30,7 +36,11 @@ onMounted(async () => {
       </button>
     </div>
 
-    <div class="grid">
+    <div v-if="isLoading" class="loading">読み込み中...</div>
+
+    <div v-else-if="pets.length === 0" class="empty">ペットが登録されていません</div>
+
+    <div v-else class="grid">
       <PetCard
         v-for="pet in pets"
         :key="pet.id"
@@ -57,6 +67,13 @@ onMounted(async () => {
 
 .header h1 {
   margin: 0;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 64px;
+  color: #999;
 }
 
 .grid {
