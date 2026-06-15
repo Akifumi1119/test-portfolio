@@ -34,6 +34,10 @@ const logout = async () => {
       </div>
     </header>
 
+    <div class="notice-banner">
+      ⚠️ このアプリのバックエンドはRender無料プランで稼働しています。初回アクセス時はサーバーの起動に1分程度かかる場合があります。
+    </div>
+
     <main class="content">
       <slot />
     </main>
@@ -121,6 +125,15 @@ nav a.router-link-active {
 .content {
   flex: 1;
   padding: 32px;
+}
+
+.notice-banner {
+  background: #fffbe6;
+  border-bottom: 1px solid #ffe58f;
+  color: #7c6000;
+  font-size: 0.85rem;
+  padding: 8px 32px;
+  text-align: center;
 }
 
 .footer {
