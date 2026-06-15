@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import AppLayout from "../../components/AppLayout.vue";
+import api from "../../api/axios";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -10,6 +11,17 @@ const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
 const fieldErrors = ref<Record<string, string[]>>({});
+const isCheckingApi = ref(true);
+
+onMounted(async () => {
+  try {
+    await api.get("/health");
+  } catch {
+    // any response (even 404) means the server is up
+  } finally {
+    isCheckingApi.value = false;
+  }
+});
 
 const submit = async () => {
   fieldErrors.value = {};
@@ -30,7 +42,12 @@ const submit = async () => {
       <div class="card">
         <h1 class="login">ログイン</h1>
 
-        <form @submit.prevent="submit">
+        <div v-if="isCheckingApi" class="api-loading">
+          <div class="spinner"></div>
+          <p>サーバーを起動中です。しばらくお待ちください...</p>
+        </div>
+
+        <form v-else @submit.prevent="submit">
           <div class="form-group">
             <label>メールアドレス</label>
             <input v-model="email" type="email" autocomplete="email" />
@@ -133,5 +150,28 @@ button:hover {
   margin-top: 16px;
   font-size: 0.85rem;
   text-align: center;
+}
+
+.api-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e5e5;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
