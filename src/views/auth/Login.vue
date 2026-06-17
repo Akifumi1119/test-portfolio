@@ -37,18 +37,20 @@ const submit = async () => {
 </script>
 
 <template>
-  <div v-if="isCheckingApi" class="loading-overlay"></div>
+  <div v-if="isCheckingApi" class="loading-overlay">
+    <div class="api-loading">
+      <div class="spinner"></div>
+      <p class="building-server">
+        サーバーを起動中です。しばらくお待ちください...
+      </p>
+    </div>
+  </div>
   <AppLayout>
     <div class="page">
       <div class="card">
         <h1 class="login">ログイン</h1>
 
-        <div v-if="isCheckingApi" class="api-loading">
-          <div class="spinner"></div>
-          <p>サーバーを起動中です。しばらくお待ちください...</p>
-        </div>
-
-        <form v-else @submit.prevent="submit">
+        <form @submit.prevent="submit">
           <div class="form-group">
             <label>メールアドレス</label>
             <input v-model="email" type="email" autocomplete="email" />
@@ -159,21 +161,23 @@ button:hover {
   align-items: center;
   gap: 12px;
   padding: 24px 0;
-  color: #555;
+  color: #fff;
   font-size: 0.9rem;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid #e5e5e5;
-  border-top-color: #333;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-overlay {
@@ -181,5 +185,14 @@ button:hover {
   inset: 0;
   z-index: 9999;
   cursor: wait;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.building-server {
+  font-size: large;
+  font-weight: 800;
 }
 </style>
