@@ -37,6 +37,7 @@ const submit = async () => {
 </script>
 
 <template>
+  <div v-if="isCheckingApi" class="loading-overlay"></div>
   <AppLayout>
     <div class="page">
       <div class="card">
@@ -173,5 +174,12 @@ button:hover {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  cursor: wait;
 }
 </style>
