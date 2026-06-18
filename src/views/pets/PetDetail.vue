@@ -100,53 +100,55 @@ onMounted(async () => {
     </div>
 
     <template v-else>
-      <div v-if="pet" class="pet-header">
-        <div>
-          <h1>{{ pet.name }}</h1>
-          <p>種類: {{ pet.type }}</p>
-          <p>誕生日: {{ formatDate(pet.birthday) }}</p>
+      <div class="page-container">
+        <div v-if="pet" class="pet-header">
+          <div>
+            <h1>{{ pet.name }}</h1>
+            <p>種類: {{ pet.type }}</p>
+            <p>誕生日: {{ formatDate(pet.birthday) }}</p>
+          </div>
+          <div class="pet-actions">
+            <button @click="router.push(`/pets/${pet.id}/edit`)">編集</button>
+            <button class="btn-danger" @click="deletePet">削除</button>
+          </div>
         </div>
-        <div class="pet-actions">
-          <button @click="router.push(`/pets/${pet.id}/edit`)">編集</button>
-          <button class="btn-danger" @click="deletePet">削除</button>
+
+        <div class="record-form">
+          <h2>記録追加</h2>
+
+          <select v-model="recordType">
+            <option value="">選択してください</option>
+            <option value="meal">食事</option>
+            <option value="walk">散歩</option>
+            <option value="weight">体重</option>
+            <option value="hospital">病院</option>
+            <option value="other">その他</option>
+          </select>
+
+          <textarea v-model="memo" placeholder="内容を入力" />
+
+          <input v-model="recordedAt" type="datetime-local" />
+
+          <button
+            class="register"
+            :disabled="isRecordButtonDisabled"
+            @click="createRecord"
+          >
+            記録追加
+          </button>
         </div>
-      </div>
 
-      <div class="record-form">
-        <h2>記録追加</h2>
+        <h2 class="records-title">お世話記録</h2>
 
-        <select v-model="recordType">
-          <option value="">選択してください</option>
-          <option value="meal">食事</option>
-          <option value="walk">散歩</option>
-          <option value="weight">体重</option>
-          <option value="hospital">病院</option>
-          <option value="other">その他</option>
-        </select>
+        <div v-if="records.length === 0" class="empty">記録がありません</div>
 
-        <textarea v-model="memo" placeholder="内容を入力" />
-
-        <input v-model="recordedAt" type="datetime-local" />
-
-        <button
-          class="register"
-          :disabled="isRecordButtonDisabled"
-          @click="createRecord"
-        >
-          記録追加
-        </button>
-      </div>
-
-      <h2>お世話記録</h2>
-
-      <div v-if="records.length === 0" class="empty">記録がありません</div>
-
-      <div v-for="record in records" :key="record.id" class="record-item">
-        <p class="record-date">{{ formatDateTime(record.recorded_at) }}</p>
-        <p class="record-type">{{ recordTypeLabel(record.record_type) }}</p>
-        <p>{{ record.memo }}</p>
-        <button @click="deleteRecord(record.id)">削除</button>
-        <hr />
+        <div v-for="record in records" :key="record.id" class="record-item">
+          <p class="record-date">{{ formatDateTime(record.recorded_at) }}</p>
+          <p class="record-type">{{ recordTypeLabel(record.record_type) }}</p>
+          <p>{{ record.memo }}</p>
+          <button @click="deleteRecord(record.id)">削除</button>
+          <hr />
+        </div>
       </div>
     </template>
   </AppLayout>
@@ -180,12 +182,20 @@ onMounted(async () => {
   border-color: #e53e3e;
 }
 
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .record-form {
-  max-width: 500px;
   margin: 2rem 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.records-title {
+  text-align: center;
 }
 
 .record-form select,
@@ -217,7 +227,7 @@ onMounted(async () => {
 }
 
 .record-item {
-  max-width: 600px;
+  width: 100%;
 }
 
 .record-date {
