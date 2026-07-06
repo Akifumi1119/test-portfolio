@@ -35,7 +35,7 @@ const logout = async () => {
     </header>
 
     <div class="notice-banner">
-      ⚠️ このアプリのバックエンドはRender無料プランで稼働しています。初回アクセス時はサーバーの起動に1分程度かかる場合があります。
+      ⚠️ このアプリのバックエンドはRender無料プラン,Neonで稼働しています。
     </div>
 
     <main class="content">
